@@ -1,14 +1,13 @@
-// create web server
-var http = require('http');
-var express = require('express');
-var app = express();
-var server = http.createServer(app);
-var io = require('socket.io').listen(server);
-var port = 3000;
+// Create web server 
+// 1. Import the express module
+const express = require('express');
+const router = express.Router();
+const commentController = require('../controllers/commentController');
 
-app.use(express.static(__dirname + '/public'));
+router.get('/comments', commentController.getComments);
+router.get('/comments/:id', commentController.getComment);
+router.post('/comments', commentController.createComment);
+router.put('/comments/:id', commentController.updateComment);
+router.delete('/comments/:id', commentController.deleteComment);
 
-// start server
-server.listen(port, function(){
-    console.log('Server running at http://');
-});
+module.exports = router;
